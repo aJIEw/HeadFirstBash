@@ -4,6 +4,7 @@ clear
 
 # create an array
 array=(1 2 3)
+# use ${#array[@]} to get array length
 echo the last one in array is ${array[${#array[@]} - 1]}
 
 # you can specify array items with index, the order doesn't matter
@@ -17,3 +18,16 @@ array[2]="simple"
 array[3]="right"
 echo array length is ${#array[@]}
 
+# read all elements
+for item in "${array[@]}"; do
+	echo -n $item
+done
+echo
+
+# another way to get all elements
+echo ${!array[@]}
+for index in ${!array[@]}; do
+	echo -n ${array[index]}
+done
+
+# sub array

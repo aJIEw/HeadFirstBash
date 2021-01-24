@@ -20,10 +20,12 @@ echo ${var:1:2}
 echo ${var:-ops} # if var exists and not null, return var, otherwise return ops
 echo ${var:=ops} # if var exists and not null, return var, otherwise set it to ops and return this value
 echo ${var:+ops} # if var exists and not null, return ops, otherwise return null
+echo ${var:?ops} # if var exists and not null, return var, otherwise print "var: ops" and break 
 echo
 
 # string substitution
 var="pattern It's a great day, is't it? pattern"
+echo $var
 # if the pattern matches the beginning of the var, delete the shortest part that matches and return the rest
 echo ${var#pattern} 
 # if the pattern matches the beginning of the var, delete the longest part that matches and return the rest

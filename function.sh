@@ -4,7 +4,7 @@ clear
 
 # an example of a function
 function foo() {
-	echo bar
+	# do something here
 }
 foo
 
@@ -14,8 +14,15 @@ function print {
 }
 print "Hello world!"
 
-# use $ and number to get arguemnts
-function say {
+# third way to create a function
+say() {
+	# use $ and number to get arguemnts
 	echo "Hi, my name is $1, and I'm $2 years old."
 }
 say "Aaron Chen" 26
+
+today() {
+  echo -n "Today's date is: "
+  date +"%A, %B %-d, %Y"
+}
+today

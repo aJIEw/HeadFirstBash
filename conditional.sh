@@ -13,9 +13,17 @@ else
 	echo Nice to meet you $i
 fi
 
+# regex example, use =~ to compare
+read num
+if [[ $num  =~ [6-9]+ ]]; then
+	echo in range
+else
+	echo not int range
+fi
+
+
 # case statement
 i=`ls -l | wc -l`
-echo $i
 case $i  in
 	[0] )
 		echo "there's no file"
@@ -38,7 +46,7 @@ function expression {
 	statement1 || statement2   # at least one of the statements is true
 
 	expression1 && expression2 # if expression1 executed with no error, then execute expression2
-	expression1 && expression2 # if expression1 executed with error, then execute expression2
+	expression1 || expression2 # if expression1 executed with error, then execute expression2
 	
 	str1 = str2     # str1 matches str2
 	str1 != str2    # str1 does not match str2

@@ -37,3 +37,8 @@ until [ $len -ge 3 ]; do
 done
 echo
 
+# select statement
+select language in Java Kotlin JavaScript Dart Python; do
+	echo "Your favorite language is $language"
+done
+
