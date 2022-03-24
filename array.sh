@@ -25,7 +25,7 @@ done
 echo
 
 # another way to get all elements
-echo ${!array[@]}
+echo "${!array[@]}" # this will give you all the indices of this array
 for index in ${!array[@]}; do
 	echo -n ${array[index]}
 done

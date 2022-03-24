@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 echo you input $# arguments, and they are: $@
+echo $?
 
 # use double bracket to avoid word splitting and pathname expansion
 while [[ $1 != "" ]]; do

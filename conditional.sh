@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/usr/local/bin/bash
 
 clear
 
 # if else statement
 i="Five"
 #i='One'
-if [ ${#i} -eq 4 ]; then # CAVEAT: the [ and ] outside of a condition must have a blank space to seperate them!
+if [ ${#i} -eq 4 ]; then # CAVEAT: we must put a blank space inside [  ]!
 	echo Hi${i}!
 elif [ $i == "One" ]; then 
 	echo You are No.1!
@@ -14,29 +14,38 @@ else
 fi
 
 # regex example, use =~ to compare
-read num
-if [[ $num  =~ [6-9]+ ]]; then
+read -p "Please input a number:" num
+if [[ $num  =~ [6-9]+ ]]; then # use [[  ]] so we don't need to use quote and support && || > <, etc. 
 	echo in range
 else
 	echo not int range
 fi
+echo
 
 
-# case statement
-i=`ls -l | wc -l`
-case $i  in
-	[0] )
-		echo "there's no file"
-		;;
-	[1] )
-		echo "there's only one file"
-		;;
-	[2-4] )
-		echo "there're some files"
-		;;
-	* )
-		echo "there're a lot of files"
-		;;	
+read -p "please input your name:" input
+case $input in
+	Aaron)
+		echo "Hello, Aaron" ;;
+	Kevin)
+		echo "Hello, Kevin" ;;
+	*)
+		echo "Sorry, I don't know who you are."
+esac
+echo
+
+
+read -n 1 -p "Type a character > "
+echo
+case $REPLY in
+  [[:upper:]] )    echo "'$REPLY' is upper case." ;;& # only supported by bash version larger than 4.0
+  [[:lower:]] )    echo "'$REPLY' is lower case." ;;&
+  [[:alpha:]] )    echo "'$REPLY' is alphabetic." ;;&
+  [[:digit:]] )    echo "'$REPLY' is a digit." ;;&
+  [[:graph:]] )    echo "'$REPLY' is a visible character." ;;&
+  [[:punct:]] )    echo "'$REPLY' is a punctuation symbol." ;;&
+  [[:space:]] )    echo "'$REPLY' is a whitespace character." ;;&
+  [[:xdigit:]] )   echo "'$REPLY' is a hexadecimal digit." ;;&
 esac
 
 

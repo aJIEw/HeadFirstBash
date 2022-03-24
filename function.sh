@@ -1,10 +1,10 @@
-#!/bin/bash
+!/bin/bash
 
 clear
 
 # an example of a function
 function foo() {
-	# do something here
+	echo This is foo
 }
 foo
 
@@ -15,14 +15,16 @@ function print {
 print "Hello world!"
 
 # third way to create a function
+birth_year=1994
 say() {
+    age=$((`date +"%Y"` - $birth_year))
 	# use $ and number to get arguemnts
-	echo "Hi, my name is $1, and I'm $2 years old."
+	echo "Hi, my name is $1, and I'm $age years old."
 }
-say "Aaron Chen" 26
+say "Aaron Chen"
 
 today() {
-  echo -n "Today's date is: "
+  echo "Today's date is: "
   date +"%A, %B %-d, %Y"
 }
 today
