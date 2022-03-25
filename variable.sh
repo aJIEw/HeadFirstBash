@@ -21,8 +21,8 @@ echo How are you doing?
 
 # ternary conditions
 echo ${var:-ops} # if var exists and not null, return var, otherwise return ops
-echo ${var:=ops} # if var exists and not null, return var, otherwise set it to ops and return this value
 echo ${var:+ops} # if var exists and not null, return ops, otherwise return null
+echo ${var:=ops} # if var exists and not null, return var, otherwise set it to ops and return this value
 echo ${var:?ops} # if var exists and not null, return var, otherwise print "var: ops" and break (exit 1)
 echo
 

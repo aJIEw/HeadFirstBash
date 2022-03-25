@@ -13,6 +13,22 @@ else
 	echo Nice to meet you $i
 fi
 
+s1=1
+s2=2
+if (( $s1 > $s2 )); then
+	echo "s1 longer"
+else
+	echo "s2 longer"
+fi
+
+file="test file.sh"
+echo file is: $PWD/$file
+if [ -a "$PWD/$file" ]; then
+    echo file exists
+else
+	echo file not found
+fi
+
 # regex example, use =~ to compare
 read -p "Please input a number:" num
 if [[ $num  =~ [6-9]+ ]]; then # use [[  ]] so we don't need to use quote and support && || > <, etc. 
