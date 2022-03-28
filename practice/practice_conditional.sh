@@ -17,6 +17,14 @@ if [[ "$num" =~ ^-?[0-9]+$ ]]; then
 fi
 echo
 
+# -a or -e, file exists; -f, file exists and is not directory or other files; -d, file is a directory;
+# -s, file exists and is not empty;
+# -w or -r, has write or read permission; -x, has execute permission;
+if [ -a practice.sh ]; then
+	echo practice.sh exists
+fi
+echo
+
 
 i=`ls -l | wc -l`
 case $i  in

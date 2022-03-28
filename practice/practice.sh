@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+clear
+
 function sayHi() {
   echo "Hello, $user!"
 }

@@ -94,7 +94,87 @@ Shell 会先将命令中的特殊字符扩展，然后再执行命令。比如�
 - 子命令扩展 `()`
 - 算术扩展 `(())`
 
-更具体的介绍见：[Shell-Expansions](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Shell-Expansions)
+##### 子命令扩展
+
+子命令扩展用于将命令的结果作为返回值：
+
+```bash
+echo $(date)
+```
+
+另外还有一种弃用的写法：
+
+```bash
+echo `date`
+```
+
+#####  算术扩展
+
+算术扩展用于整数的算术运算：
+
+```bash
+echo $((2+2))
+```
+
+同样有一种弃用的写法，不过不推荐使用：
+
+```bash
+echo $[2+2]
+```
+
+算术扩展支持的运算符有：
+
+- +
+- -
+- \*
+- /
+- %
+- \*\* (指数)
+- ++
+- --
+
+数字默认使用十进制，但是 Bash 也支持其它进制：
+
+- `0`+数字：八进制数字
+- `0x`+数字：十六进制数字
+- `base#`+数字：base 进制数字
+
+算术扩展也支持位运算：
+
+- <<: 左移运算
+- \>\>: 右移运算 
+- &: 位的「与」运算
+- |: 位的「或」运算
+- ~: 位的「否」运算
+- ^: 位的「异或」运算
+
+另外，算术扩展除了支持普通的逻辑运算（`>` `<` `==` `&&` `||` `!`）之外，还支持三元条件运算符：
+
+```bash
+# 语法
+$((expr1 ? expr2 : expr3))
+
+# 例子
+((result=2*3))
+echo result: $((result > 1? ++result: --result)) 
+```
+
+由于 Bash 中所有变量都是字符串，所以，如果想要接受算术运算的结果，可以使用 `let` 关键字：
+
+```bash
+let result=2+5
+echo variable value: $result
+```
+
+除此之外，如果只是想要获得算术运算的结果，还可以使用 `expr` 命令：
+
+```bash
+expr 2 + 2
+```
+
+不过，数字和运算符之间必须至少包含一个空格，而且特殊字符（如 \*）等需要使用 `\` 转义。
+
+其它模式的具体用法见：[Shell-Expansions](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Shell-Expansions)
 
 ### 变量
 
@@ -487,3 +567,72 @@ Bash 中同样可以使用 `continue` 跳出循环以及 `break`  中断循环�
 
 
 ### 函数
+
+Bash 中可以使用别名（alias）封装单个命令，如果是复杂的命令则可以使用函数。
+
+完整的函数形式如下：
+
+```bash
+function functionName() {
+    echo "Hello"
+}
+```
+
+但实际中也可以使用省略的写法：
+
+```bash
+# omit parenthesis
+function greeting {
+    echo "Hi"
+}
+
+# omit keyword function
+foo() {
+    echo "bar"
+}
+```
+
+我们可以使用 `unset -f` 删除一个函数：
+
+```bash
+unset -f functionName
+```
+
+查看所有已定义的函数：
+
+```bash
+declare -f [functionName]
+```
+
+#### 参数
+
+Bash 中的函数参数没有参数名，我们可以按照定义参数的顺序来访问每个参数，比如访问从第 1 到第 9 个参数使用 `$1` - `$9`，第 10 个之后的参数使用 `${n}` 的形式。
+
+- `$0`: 函数名
+- `$#`: 参数总数
+- `$@`: 全部参数，使用空格分割
+- `$*`: 全部参数，使用 `$IFS` 中的第一个字符作为分割符
+
+#### 局部变量
+
+Bash 脚本中声明的变量，无论是否在函数体内，都会被当做全局变量，如果想要声明函数体内的局部变量，需要使用 `local` 关键字：
+
+```bash
+function intro() {
+    local age=$((`date +%Y` - $birth_year))
+    echo "Hi, my name is $1, and I'm $age years old."
+}
+```
+
+#### 函数返回
+
+Bash 中使用 `return` 给函数指定返回值，也可以用于退出函数。
+
+```bash
+add() {
+    local regex_num=^-?[0-9]+$
+    if [[ $1 =~ $regex_num && $2 =~ $regex_num ]]; then
+        return $(($1+$2))
+    fi
+}
+```

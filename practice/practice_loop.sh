@@ -1,21 +1,33 @@
 #!/bin/bash
 
+clear
+
+echo for loop:
 for (( i=1; i<5; i++ )); do
-    echo for loop: $i
+    echo -n  $i,
 done
-echo
+echo ; echo
 
+echo for in loop with range:
 for i in {1..5}; do
-    echo for in loop with range: $i
+    echo -n $i,
 done
-echo
+echo ; echo
 
+echo -n current:
 for i in 1 10 15 8 100; do
-    echo current: $i
+    echo -n $i,
     if [ $i -eq 8 ]; then
+        echo
         echo "find 8 in this list, quit loop now"
         break
     fi
+done
+echo
+
+# use `` to wrap command or expressions
+for file in `ls ./`; do
+	echo $file info: `ls -al $file`
 done
 echo
 
