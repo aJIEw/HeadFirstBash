@@ -13,7 +13,7 @@
 
 ### 前置知识
 
-一个 Bash 脚本通常是一系列命令的集合，我们可以用它来执行一些通用的操作，从而节约时间。
+一个 Bash 脚本是一系列命令的集合，我们可以把一些重复的操作放到 Bash 脚本中执行，从而节省时间。
 
 #### 结构
 
@@ -28,12 +28,12 @@ user=$LOGNAME
 
 # 方法
 function sayHi() {
-  echo "Hello, $user!"
+    echo "Hello, $user!"
 }
 
 # 条件判断
 if [ -n $user ]; then
-	sayHi
+    sayHi
 fi
 ```
 
@@ -55,11 +55,13 @@ chmod +x script.sh
 ./script.sh
 # or
 bash script.sh
-
-script.sh # "bash: arguments.sh: command not found"
 ```
 
-直接在当前目录输入脚本名称是无法执行成功的，因为终端会将它理解为命令去执行。
+直接在当前目录输入脚本名称是无法执行成功的，因为终端会将它当做命令去执行：
+
+```bash
+script.sh # "bash: arguments.sh: command not found"
+```
 
 #### 符号
 
@@ -109,7 +111,7 @@ Bash 中的变量有两种，一种是环境变量，另一种是本地变量。
 ```bash
 BASHPID  # Bash 进程的进程 ID
 HISTSIZE # 保存历史命令的条数
-HOME 	   # 用户的主目录
+HOME     # 用户的主目录
 HOST     # 当前主机的名称
 IFS      # 词与词之间的分隔符，默认为空格
 LANG     # 系统语言
@@ -189,7 +191,7 @@ echo ${str:9} #Peace
 
 #### 字符串匹配和替换
 
-##### 头部匹配 #
+##### 头部匹配 \# #
 
 从字符串开头开始匹配，如果匹配成功，删除匹配的部分并返回剩余的部分。
 
@@ -310,21 +312,47 @@ unset array[0]
 
 ### 条件判断
 
-Bash 中的条件判断写法如下：
+#### if 判断
+
+Bash 中的 if 判断写法如下：
 
 ```bash
 if condition 1; then
-	echo "condition 1"
+    echo "condition 1"
 elif condition 2; then
-	echo "condition 2"
+    echo "condition 2"
 else
-	echo "others"
+    echo "others"
 fi
 ```
 
+#### case 判断
+
+case 判断主要用于单个值有多个分支情况的判断，这种情况下相比使用 if 写法更加清晰。
+
+```bash
+case expression in
+    pattern )
+        commands ;;
+    pattern )
+        commands ;;
+    ...
+esac
+```
+
+case 中的表达式多为字符串，pattern 多为字符串的匹配模式，除了一般的通配符之外，还可以使用字符类等来匹配。另外，Bash 4.0 之后还可以使用 `;;&` 来匹配多个条件。
+
 #### 判断条件
 
-判断条件可以是普通的命令，如果命令返回值为 0 表示条件成立，否则不成立。另外，判断条件也可以是是 test 命令，它有以下几种写法：
+判断条件可以是普通的命令，如果命令返回值为 0 表示条件成立，否则不成立。
+
+```bash
+if cd folder; then
+    echo "File exists"
+fi
+```
+
+另外，判断条件也可以是是 test 命令，它有以下几种写法：
 
 ```bash
 test condition
@@ -340,7 +368,7 @@ file="test file.sh"
 if [ -a $PWD/$file ]; then # binary operator expected
     echo file exists
 else
-	echo file not found
+    echo file not found
 fi
 ```
 
@@ -356,16 +384,106 @@ if [ -a "$PWD/$file" ]; then
 if [[ -a $PWD/$file ]]; then
 ```
 
-判断条件还可以是算术运算：
+#### 判断条件类型
+
+##### 文件判断
+
+```bash
+if [ -d practice ] && cd practice; then
+    echo "Entered folder: practice"
+fi
+```
+
+##### 字符串判断
+
+```bash
+if [ $s1 = $s2 ]; then
+    echo "s1 = s2"
+fi
+```
+
+##### 整数判断
+
+```bash
+if [ $i1 -eq $i2 ]; then
+    echo "i1 equals i2"
+fi
+```
+
+##### 算术运算
 
 ```bash
 if (( $s1 > $s2 )); then
-	echo "s1 longer"
+    echo "s1 longer"
 else
-	echo "s2 longer"
+    echo "s2 longer"
+fi
+```
+
+##### 正则判断
+
+```bash
+# 语法
+[[ string =~ regex ]]
+
+# 例子
+num=1
+if [[ "$num" =~ ^-?[0-9]+$ ]]; then
+    echo "$num is an integer."
 fi
 ```
 
 ### 循环
+
+#### while 循环
+
+当符合判断条件时执行命令。
+
+```bash
+while condition; do
+    commands
+done
+```
+
+#### until 循环
+
+直到符合判断条件时，才退出执行命令。
+
+```bash
+until condition; do
+    commands
+done
+```
+
+#### for 循环
+
+```bash
+for (( expression1; expression2; expression3 )); do
+  commands
+done
+```
+
+#### for..in 循环
+
+```bash
+for variable in list; do
+    commands
+done
+```
+
+#### select 循环
+
+select 循环是一个默认不断执行的循环，主要用于生成菜单项。
+
+```bash
+select item in list; do
+    commands
+done
+```
+
+#### 循环跳出和中断
+
+Bash 中同样可以使用 `continue` 跳出循环以及 `break`  中断循环。
+
 
 ### 函数

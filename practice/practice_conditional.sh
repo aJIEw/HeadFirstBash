@@ -11,11 +11,9 @@ else
 fi
 echo
 
-
-if [ ${#array[@]} == 3 ]; then
-	echo length matches
-else
-	echo length does not match
+num=1
+if [[ "$num" =~ ^-?[0-9]+$ ]]; then
+    echo "$num is an integer."
 fi
 echo
 
