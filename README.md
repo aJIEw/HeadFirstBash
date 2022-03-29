@@ -124,14 +124,14 @@ echo $[2+2]
 
 算术扩展支持的运算符有：
 
-- +
-- -
+- \+
+- \-
 - \*
 - /
 - %
 - \*\* (指数)
 - ++
-- --
+- \-\-
 
 数字默认使用十进制，但是 Bash 也支持其它进制：
 
@@ -172,7 +172,7 @@ echo variable value: $result
 expr 2 + 2
 ```
 
-不过，数字和运算符之间必须至少包含一个空格，而且特殊字符（如 \*）等需要使用 `\` 转义。
+不过，数字和运算符之间必须包含至少一个空格，而且特殊字符（如 `*` 等）需要使用 `\` 转义。
 
 其它模式的具体用法见：[Shell-Expansions](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Shell-Expansions)
 
@@ -189,18 +189,18 @@ Bash 中的变量有两种，一种是环境变量，另一种是本地变量。
 常见的系统环境变量：
 
 ```bash
-BASHPID  # Bash 进程的进程 ID
+BASHPID  # Bash 进程的 ID
 HISTSIZE # 保存历史命令的条数
 HOME     # 用户的主目录
 HOST     # 当前主机的名称
-IFS      # 词与词之间的分隔符，默认为空格
+IFS      # 词与词之间的分隔符，默认为空格+Tab+换行符
 LANG     # 系统语言
-LINENO   # 输入命令的条数
+LINENO   # 已输入命令的条数
 LOGNAME  # 当前登录用户的用户名
 MACHTYPE # 机器类型，使用何种架构，x86/x86_64 等
 PATH     # 可执行命令的目录
-PWD      # 当前工作目录
-RANDOM   # 随机数
+PWD      # 当前目录
+RANDOM   # 生成一个随机数
 SECONDS  # 当前 Shell 从登入后到目前的秒数
 SHELL    # 当前 Shell 的名字，比如 bash/zsh/fish 等
 TERM     # 终端类型名，即终端仿真器所用的协议
@@ -227,13 +227,13 @@ export SOME_VARIABLE="cool_variable"
 
 ##### 变量默认值
 
-在使用局部变量时，存在一种类似于三目运算符的为变量赋值的方法，语法如下：
+在使用局部变量时，我们可以为可为空的变量赋值，其语法如下：
 
 ```bash
 ${var:-ops} # 如果 var 值存在且不为空返回 var，否则返回 ops
-${var:+ops} # 如果 var 值存在且不为空返回 ops，否则返回 null
+${var:+ops} # 如果 var 值存在且不为空返回 ops，否则返回 null (empty string)
 ${var:=ops} # 如果 var 值存在且不为空返回 var，否则将 var 值设为 ops 并且返回 ops
-${var:?ops} # 如果 var 值存在且不为空返回 var，否则打印 "var: ops" 并且退出（错误码为 1）
+${var:?ops} # 如果 var 值存在且不为空返回 var，否则打印 "var: ops" 并且退出 (exit 1, stderr)
 ```
 
 #### Tips
@@ -273,7 +273,7 @@ echo ${str:9} #Peace
 
 ##### 头部匹配 \# #
 
-从字符串开头开始匹配，如果匹配成功，删除匹配的部分并返回剩余的部分。
+从字符串头部开始匹配，如果匹配成功，删除匹配成功的部分并返回剩余的部分。
 
 有两种替换模式，最短替换和最长替换，分别表示为 `${path#pattern}` 和 `${path##pattern}`。
 
@@ -370,6 +370,8 @@ echo "${!array[@]}" # or ${!array[*]}
 ```bash
 echo array: ${array[@]} # or ${array[*]}
 ```
+
+使用 `*` 的时候会使用 `IFS` 中的第一个字符作为数组的分割符，
 
 #### 数组截取
 

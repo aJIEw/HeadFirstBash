@@ -29,17 +29,4 @@ function intro() {
 intro "Aaron Chen"
 
 
-add() {
-    local regex_num=^-?[0-9]+$
-    if [[ $1 =~ $regex_num && $2 =~ $regex_num ]]; then
-        return $(($1+$2))
-    else
-        echo illegal arguemnts: $1, $2
-    fi
-}
-
-add 1 9
-result=$?
-echo after add: $result
-
 

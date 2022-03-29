@@ -17,13 +17,14 @@ greeting="Nice to meet you, \"${my_name}\"!"
 echo
 echo $greeting
 echo How are you doing?
+echo
 
 
 # ternary conditions
 echo ${var:-ops} # if var exists and not null, return var, otherwise return ops
-echo ${var:+ops} # if var exists and not null, return ops, otherwise return null
+echo ${var:+ops} # if var exists and not null, return ops, otherwise return null (empty string)
 echo ${var:=ops} # if var exists and not null, return var, otherwise set it to ops and return this value
-echo ${var:?ops} # if var exists and not null, return var, otherwise print "var: ops" and break (exit 1)
+echo ${var:?ops} # if var exists and not null, return var, otherwise print "var: ops" and break (exit 1, stderr)
 echo
 
 city=
