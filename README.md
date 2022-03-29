@@ -7,9 +7,10 @@
 -   [bash-guide](https://github.com/Idnan/bash-guide)
 -   [Bash 脚本教程](https://wangdoc.com/bash/index.html)
 -   [TLCL](http://linuxcommand.org/index.php) 的[中文翻译版](https://billie66.github.io/TLCL/index.html)
+-   [Advanced Bash-Scripting Guide](https://tldp.org/LDP/abs/html/index.html)
 -   [Bash Reference Manual](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html)
 
-## Bash 脚本入门
+## 基础
 
 ### 前置知识
 
@@ -195,7 +196,7 @@ HOME     # 用户的主目录
 HOST     # 当前主机的名称
 IFS      # 词与词之间的分隔符，默认为空格+Tab+换行符
 LANG     # 系统语言
-LINENO   # 已输入命令的条数
+LINENO   # 当前 Shell 中已输入命令的条数
 LOGNAME  # 当前登录用户的用户名
 MACHTYPE # 机器类型，使用何种架构，x86/x86_64 等
 PATH     # 可执行命令的目录
@@ -368,10 +369,12 @@ echo "${!array[@]}" # or ${!array[*]}
 #### 获取数组元素
 
 ```bash
-echo array: ${array[@]} # or ${array[*]}
+echo first item: $array # array will return the first one by default
+echo second item: ${array[1]}
+echo array: ${array[@]} # or use ${array[*]} to get all items
 ```
 
-使用 `*` 的时候会使用 `IFS` 中的第一个字符作为数组的分割符，
+使用 `*` 的时候会使用 `IFS` 中的第一个字符作为数组的分割符。
 
 #### 数组截取
 
@@ -610,7 +613,7 @@ declare -f [functionName]
 
 Bash 中的函数参数没有参数名，我们可以按照定义参数的顺序来访问每个参数，比如访问从第 1 到第 9 个参数使用 `$1` - `$9`，第 10 个之后的参数使用 `${n}` 的形式。
 
-- `$0`: 函数名
+- `$0`: 函数所在的脚本的文件名
 - `$#`: 参数总数
 - `$@`: 全部参数，使用空格分割
 - `$*`: 全部参数，使用 `$IFS` 中的第一个字符作为分割符
@@ -638,3 +641,162 @@ add() {
     fi
 }
 ```
+
+## 进阶
+
+### Debug
+
+#### 环境变量
+
+##### `BASH_SOURCE`
+
+返回一个字符串数组，包含脚本的调用堆栈（脚本名，最先被调用的在前）：
+
+```bash
+function f() {
+    echo BASH_SCRIPT[0]: ${BASH_SOURCE[0]} # 方法 f 所在的脚本名
+    echo BASH_SCRIPT[1]: ${BASH_SOURCE[1]} # 调用方法 f 所在的脚本名
+    echo BASH_SCRIPT[2]: ${BASH_SOURCE[2]} # 以此类推
+}
+```
+
+##### `FUNCNAME`
+
+返回一个字符串数组，包含方法的调用堆栈（方法名，最先被调用的在前）：
+
+```bash
+function f() {
+    echo funcname0: ${FUNCNAME[0]} # f 的方法名
+    echo funcname1: ${FUNCNAME[1]} # 调用方法 f 的方法名
+    echo funcname2: ${FUNCNAME[2]} # 以此类推
+}
+```
+
+##### `BASH_LINENO`
+
+返回一个字符串数组，包含方法调用的行号（最先被调用的方法在前）：
+
+```bash
+function f() {
+    echo "method call at: ${BASH_LINENO}"
+}
+f
+```
+
+##### `LINENO`
+
+返回脚本所在的行号：
+
+```bash
+echo "this line is at: $LINENO"
+```
+
+#### Set 命令
+
+Bash 脚本是在一个子 Shell 中执行的，我们可以使用 `set` 命令调整 Shell 运行环境的参数。
+
+##### `set -x`
+
+用于输出命令：
+
+```bash
+set -x
+
+echo "Hi"
+
+# 输出：
++ echo "Hi"
+Hi
+```
+
+##### `set -u`
+
+遇到未设置的变量将报错，而不是默认的当做空值：
+
+```bash
+set -u
+
+echo $A # A: unbound variable
+```
+
+##### `set -e`
+
+脚本出错时，停止执行。
+
+```bash
+set -e
+
+foo
+echo bar
+
+# 输出 `foo: command not found` 并退出，不再执行之后的命令
+```
+
+##### `set -o pipefail`
+
+当错误命令遇到管道命令时，管道命令总是会执行成功，所以我们可以使用该参数使得只要有一个子命令执行失败，整个管道命令也失败。
+
+##### `set -E`
+
+`-e` 参数会导致函数内的错误不会被 `trap` 捕获，所以可以使用 `-E` 纠正这一行为。
+
+##### `set -n`
+
+不运行命令，只检查语法是否正确。
+
+##### `set -f`
+
+不对通配符进行扩展。
+
+##### `set -v`
+
+打印 Shell 脚本中的每一行输入（包括空白行）。
+
+##### `set -o noclobber`
+
+防止重定向运算符 `>` 覆盖已经存在的文件。
+
+##### 总结
+
+一般在调试脚本时，可以开启以下参数：
+
+```bash
+set -Eeux
+set -o pipefail
+set -o noclobber
+```
+
+### 常用命令
+
+收集一些常见命令的用法。
+
+#### 文件相关
+
+##### `mktemp`
+
+用于创建一个只有创建者可读写的临时文件，从而保证安全性。
+
+```bash
+TEMPFILE=$(mktemp)
+
+echo $TEMPFILE
+```
+
+#### 其它命令
+
+##### `trap`
+
+用于响应系统信号。注意，如果你的命令行环境是 zsh，直接运行 `trap` 命令可能会无响应。
+
+查看所有系统信号：
+
+```bash
+trap -l
+```
+
+在捕捉到系统信号后触发命令：
+
+```bash
+trap 'echo "Caught signal EXIT"' EXIT
+```
+
