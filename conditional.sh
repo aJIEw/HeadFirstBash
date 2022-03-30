@@ -48,10 +48,10 @@ echo
 
 read -p "please input your name:" input
 case $input in
-    Aaron )
-        echo "Hello, Aaron" ;;
-    Kevini )
-        echo "Hello, Kevin" ;;
+    aJIEw )
+        echo "Hello, aJIEw" ;;
+    Octocat )
+        echo "Hello, Octocat" ;;
     * )
         echo "Sorry, I don't know who you are."
 esac

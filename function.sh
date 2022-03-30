@@ -26,7 +26,7 @@ function intro() {
     # use $ and number to get arguemnts
     echo "Hi, my name is $1, and I'm $age years old."
 }
-intro "Aaron Chen"
+intro "aJIEw"
 
 
 

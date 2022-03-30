@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
-trap 'echo "=================done================"' EXIT
+clear
 
 TEMPFILE=$(mktemp) || exit 1
-echo $TEMPFILE
+echo TEMP file created: $TEMPFILE
+echo
 
 ls /etc/ > $TEMPFILE
 cat $TEMPFILE
@@ -13,3 +14,4 @@ if grep -qi "ssh" $TEMPFILE; then
     echo "find ssh in folder $TEMPFILE"
 fi
 
+trap 'echo "=================done================"' EXIT

@@ -16,6 +16,12 @@
 
 一个 Bash 脚本是一系列命令的集合，我们可以把一些重复的操作放到 Bash 脚本中执行，从而节省时间。
 
+#### 术语
+
+- Shell: 通常指 [Unix shell](https://en.wikipedia.org/wiki/Unix_shell)，一种命令行解释器。
+- [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)): 用于替代 [sh](https://en.wikipedia.org/wiki/Bourne_shell) 的最为广泛使用的 shell。
+- Bash 脚本：一种运行在 Bash 之上的脚本语言，主要用于系统管理、文件操作、运行环境配置等。
+
 #### 结构
 
 Bash 脚本由 Shebang 行和脚本内容组成。
@@ -38,14 +44,14 @@ if [ -n $user ]; then
 fi
 ```
 
-相比较其它高级编程语言而言，[Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) 的语法虽然显得有点啰嗦，但是考虑到它诞生在上世纪 80 年代末（[sh](https://en.wikipedia.org/wiki/Bourne_shell) 更早，诞生于 70 年代末），至今已经有超过 30 年的历史了，所以，它能沿用到现在就已经算是一个工程奇迹了(#ﾟДﾟ)。
+相比较其它高级编程语言而言，[Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) 的语法虽然显得有点啰嗦，但是考虑到它诞生在上世纪 80 年代末（[sh](https://en.wikipedia.org/wiki/Bourne_shell) 更早，诞生于上世纪 70 年代末），至今已经有超过 30 年的历史了，所以，它能沿用到现在已经算是一个工程奇迹了 (#ﾟДﾟ)。
 
 #### 执行
 
 在执行脚本之前，需要先添加执行权限：
 
 ```bash
-chmod +x script.sh
+chmod +x *.sh
 ```
 
 运行脚本需要使用全路径或者相对路径：
@@ -84,15 +90,15 @@ Command1 || Command2 # 表示 Command1 运行失败后，运行 Command2
 
 #### [模式扩展](https://wangdoc.com/bash/expansion.html)
 
-Shell 会先将命令中的特殊字符扩展，然后再执行命令。比如假如输入 `ls ~/workspace` 后，Shell 首先会将 `~/workspace` 扩展成绝对路径，然后再执行 `ls` 命令。像这样的扩展主要有以下几种：
+Shell 会先将命令中的特殊字符扩展，然后再执行命令。比如输入 `ls ~/workspace` 后，shell 首先会将 `~/workspace` 扩展成绝对路径，然后再执行 `ls` 命令。像这样的扩展主要有以下几种：
 
-- `~` 用户目录扩展
-- `?` 单个字符扩展
-- `*` 任意字符扩展
+- 用户目录扩展 `~`
+- 单个字符扩展 `?`
+- 任意字符扩展 `*`
 - 方括号扩展 `[]`
 - 大括号扩展 `{}`
 - 变量扩展 `$`
-- 子命令扩展 `()`
+- 子命令扩展 `$()`
 - 算术扩展 `(())`
 
 ##### 子命令扩展
@@ -111,7 +117,7 @@ echo `date`
 
 #####  算术扩展
 
-算术扩展用于整数的算术运算：
+算术扩展用于数字的算术运算：
 
 ```bash
 echo $((2+2))
@@ -183,7 +189,7 @@ Bash 中的变量有两种，一种是环境变量，另一种是本地变量。
 
 #### 环境变量
 
-分为系统定义的环境变量和用户定义的环境变量。当我们每次打开一个 Shell 终端时，Shell 会为我们初始化好所有的系统环境变量，如果是子 Shell 的话还会继承父 Shell 中的环境变量（通过 `export` 导出的环境变量）。
+分为系统定义的环境变量和用户定义的环境变量。当我们每次打开一个 shell 终端时，shell 会为我们初始化好所有的系统环境变量，如果是子 shell 的话还会继承父 shell 中的环境变量（通过 `export` 导出的环境变量）。
 
 我们可以使用 `env` 命令查看所有环境变量。另外，由于环境变量通常都是常量，所以一般使用大写。
 
@@ -196,14 +202,14 @@ HOME     # 用户的主目录
 HOST     # 当前主机的名称
 IFS      # 词与词之间的分隔符，默认为空格+Tab+换行符
 LANG     # 系统语言
-LINENO   # 当前 Shell 中已输入命令的条数
+LINENO   # 当前 shell 中已输入命令的条数
 LOGNAME  # 当前登录用户的用户名
 MACHTYPE # 机器类型，使用何种架构，x86/x86_64 等
 PATH     # 可执行命令的目录
 PWD      # 当前目录
 RANDOM   # 生成一个随机数
-SECONDS  # 当前 Shell 从登入后到目前的秒数
-SHELL    # 当前 Shell 的名字，比如 bash/zsh/fish 等
+SECONDS  # 当前 shell 从登入后到目前的秒数
+SHELL    # 当前 shell 的名字，比如 bash/zsh/fish 等
 TERM     # 终端类型名，即终端仿真器所用的协议
 UID      # 当前登录用户的 ID
 USER     # 当前用户的用户名
@@ -211,7 +217,9 @@ USER     # 当前用户的用户名
 
 #### 局部变量
 
-局部变量是用户在当前 Shell 中定义的变量，我们在脚本中定义的变量也属于局部变量。我们可以使用 `set` 查看当前 Shell 下所有的环境变量和局部变量。
+局部变量是用户在当前 shell 中定义的变量，我们在脚本中定义的变量也属于局部变量。我们可以使用 `set` 查看当前 shell 下所有的环境变量和局部变量。
+
+局部变量和环境变量的例子：
 
 ```bash
 !/usr/bin/env bash
@@ -228,7 +236,7 @@ export SOME_VARIABLE="cool_variable"
 
 ##### 变量默认值
 
-在使用局部变量时，我们可以为可为空的变量赋值，其语法如下：
+在使用变量时，存在一种根据变量是否为空动态返回值的语法：
 
 ```bash
 ${var:-ops} # 如果 var 值存在且不为空返回 var，否则返回 ops
@@ -242,7 +250,7 @@ ${var:?ops} # 如果 var 值存在且不为空返回 var，否则打印 "var: op
 - 变量区分大小写
 - Shell 中存在一些特殊变量：
   - `$?` 表示上一个命令的退出码（通过 `exit` 命令）。通常 0 表示执行成功，1 表示执行失败，未指定时默认为 0。
-  - `$$` 表示当前 Shell 所在进程的 ID。
+  - `$$` 表示当前 shell 所在进程的 ID。
   - `$_` 表示上个命令的最后一个参数。
   - `$@` 表示命令所有参数值。
   - `$#` 表示上个命令的参数数量。
@@ -520,7 +528,7 @@ fi
 
 ### 循环
 
-#### while 循环
+#### while
 
 当符合判断条件时执行命令。
 
@@ -530,7 +538,7 @@ while condition; do
 done
 ```
 
-#### until 循环
+#### until
 
 直到符合判断条件时，才退出执行命令。
 
@@ -540,7 +548,7 @@ until condition; do
 done
 ```
 
-#### for 循环
+#### for
 
 ```bash
 for (( expression1; expression2; expression3 )); do
@@ -548,7 +556,7 @@ for (( expression1; expression2; expression3 )); do
 done
 ```
 
-#### for..in 循环
+#### for..in
 
 ```bash
 for variable in list; do
@@ -556,7 +564,7 @@ for variable in list; do
 done
 ```
 
-#### select 循环
+#### select
 
 select 循环是一个默认不断执行的循环，主要用于生成菜单项。
 
@@ -609,9 +617,9 @@ unset -f functionName
 declare -f [functionName]
 ```
 
-#### 参数
+#### 函数形参
 
-Bash 中的函数参数没有参数名，我们可以按照定义参数的顺序来访问每个参数，比如访问从第 1 到第 9 个参数使用 `$1` - `$9`，第 10 个之后的参数使用 `${n}` 的形式。
+Bash 中的函数的形参没有参数名，我们可以按照传入参数的顺序来访问每个参数，比如访问从第 1 到第 9 个参数使用 `$1` - `$9`，第 10 个之后的参数使用 `${n}` 的形式。
 
 - `$0`: 函数所在的脚本的文件名
 - `$#`: 参数总数
@@ -642,9 +650,90 @@ add() {
 }
 ```
 
+#### 执行顺序
+
+Bash 中函数的执行优先级高于脚本，但是低于别名。也就是说，如果函数名、脚本名、别名相同，执行顺序是：别名>函数名>脚本名。
+
+### 脚本参数
+
+Bash 脚本的参数和函数的参数类似，也是通过 `$1` \~ `$n` 的形式来访问。
+
+#### 改变脚本参数
+
+##### `shift`
+
+通过 `shift` 命令可以移除脚本的首个参数，并且使之后的参数都前移一位：
+
+```bash
+# 依次读取并移除参数
+while [[ -n $1 ]]; do
+    echo "there're $# arguments left, the first one is $1"
+    shift
+done
+```
+
+#### 参数解析
+
+##### `getopts`
+
+通过该命令解析命令行参数的配置选项，比如 `ls -al` 中的 `-al`。
+
+```bash
+# 使用方式
+getopts OPTSTRING VARNAME [ARGS...]
+```
+
+其中 `OPTSTRING` 表示当前命令所有可接收的配置选项，其中：
+
+- 单个字符，表示可选项无参数
+- 单个字符+`:`，表示可选项携带参数。
+
+例子：
+
+- `abc` 表示可选项为 `-a` 或 `-b` 或 `-c`，如果是其它字符会报错。
+- `abc:` 表示可选项为 `-a` 或 `-b` 或 `-c+参数`，如果是其它字符或者 `-c` 缺少参数都会报错。
+- `:ab:c:` 表示可选项为 `-a` 或 `-b 参数` 或 `-c 参数`，开头添加了 `:`，所以即使是不支持的选项也不会报错。
+
+另外，还可以配合以下环境变量使用：
+
+- `OPTARG`: 表示选项的参数。
+- `OPTIND`: 表示已处理的参数数量，默认为 1。
+
+#### 配置选项终止符
+
+`-` 和 `--` 开头的参数会被当做配置选项，所以，使用这两个字符开头的实参就需要使用配置选项终止符 `--`。
+
+```bash
+cat -- -f.sh | grep -- "--hello"
+```
+
+上面的例子中，文件名以 `-` 开头，所以需要使用配置选项终止符 `--`；搜索文件中的 `--` 开头的文字，同样需要在参数前添加 `--`。否则，`cat` 命令将会无法识别 `-f` 选项，`grep` 命令也会无法识别 `--hello` 选项。
+
 ## 进阶
 
 ### Debug
+
+#### 启动环境
+
+每次启动一个 shell，都会开启一个新的 session，一个 session 代表当前 shell 的运行环境。Session 可以分为 login shell 和 non-login shell。
+
+##### login shell
+
+顾名思义，就是需要用户登录的 shell session，启动时会从 `/etc/profile` 和 `~/.bash_profile` 中读取环境变量。注意，`~/.bash_profile` 也会触发读取 `~/.bashrc` 和 `/etc/bashrc`。
+
+##### non-login shell
+
+通常是被 login shell 启动的 shell，比如在当前 shell 中输入 `bash` 命令后，会启动一个新的 shell，此时就是一个 non-login shell，它会重新读取 `~/.bashrc` 和 `/etc/bashrc` 中的环境变量。
+
+non-login shell 还有一种特殊的情况，那就是非交互的 (non-interactive)，最常见的是运行一个脚本的时候，所有的脚本都在单独启动的一个子 shell 中执行，并且在执行完毕后就立即退出该 shell。
+
+##### 查看 shell 类型
+
+输入下面的命令，如果返回值前带 `-` 说明是 login shell，否则就是 non-login shell。
+
+```bash
+echo $0
+```
 
 #### 环境变量
 
@@ -693,7 +782,7 @@ echo "this line is at: $LINENO"
 
 #### Set 命令
 
-Bash 脚本是在一个子 Shell 中执行的，我们可以使用 `set` 命令调整 Shell 运行环境的参数。
+Bash 脚本是在一个子 shell 中执行的，我们可以使用 `set` 命令调整 shell 运行环境的参数。
 
 ##### `set -x`
 
@@ -750,7 +839,7 @@ echo bar
 
 ##### `set -v`
 
-打印 Shell 脚本中的每一行输入（包括空白行）。
+打印 shell 脚本中的每一行输入（包括空白行）。
 
 ##### `set -o noclobber`
 
@@ -764,6 +853,13 @@ echo bar
 set -Eeux
 set -o pipefail
 set -o noclobber
+```
+
+另外，也可以在启动脚本时指定对应的参数，比如：
+
+```bash
+# 不运行脚本，只检查是否有语法错误
+bash -n script.sh
 ```
 
 ### 常用命令

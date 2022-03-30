@@ -43,20 +43,23 @@ done < ~/.bash_profile
 
 
 echo "Which Operating System do you like?"
-select os in Ubuntu LinuxMint Windows8 Windows10 WindowsXP
+select os in macOS Ubuntu LinuxMint Windows8 Windows10 WindowsXP
 do
-  case $os in
-    "Ubuntu"|"LinuxMint")
-      echo "I also use $os."
-    ;;
-    "Windows8" | "Windows10" | "WindowsXP")
-      echo "Why don't you try Linux?"
-    ;;
-    *)
-      echo "Invalid entry."
-      break
-    ;;
-  esac
+    case $os in
+        "macOS")
+            echo "I also use $os."
+        ;;
+        "Ubuntu" | "LinuxMint")
+            echo "I like $os."
+        ;;
+        "Windows8" | "Windows10" | "WindowsXP")
+            echo "OK."
+        ;;
+        *)
+            echo "I don't know that os"
+            break
+        ;;
+    esac
 done
 
 

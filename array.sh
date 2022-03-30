@@ -6,14 +6,16 @@ clear
 array=(1 2 3)
 
 # you can specify array items with index, the order doesn't matter
-array=([2]="!" [0]="Hi" [1]="Aaron")
+array=([2]="!" [0]="Hi" [1]="aJIEw")
 echo ${array[0]} ${array[1]} ${array[2]}
+echo
 
 # or you can assign them one by one
 array[0]="this"
 array[1]="is"
 array[2]="simple"
 array[3]="right"
+array[4]="?"
 
 
 # use ${#array[@]} or ${array[*]}to get array length

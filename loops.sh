@@ -2,8 +2,8 @@
 
 clear
 
-echo "simple for loops:"
-# simple for loop
+echo "for loops:"
+# for loop
 for i in 1 2 3; do
 	echo -n $i,
 done
