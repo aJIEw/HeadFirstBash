@@ -27,7 +27,7 @@ echo
 
 # use `` to wrap command or expressions
 for file in `ls ./`; do
-	echo $file info: `ls -al $file`
+    echo $file info: `ls -al $file`
 done
 echo
 
@@ -35,7 +35,7 @@ echo
 count=0
 while read line; do
     ((count++))
-    if [[ -z $line ]]; then 
+    if [[ -z $line ]]; then
         continue
     fi
     echo "Line $count contains $(echo -n $line | wc -c) characters: $line"

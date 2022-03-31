@@ -9,6 +9,6 @@ function sayHi() {
 }
 
 if [ -n $user ]; then
-	sayHi
+    sayHi
 fi
 

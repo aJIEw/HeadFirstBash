@@ -8,9 +8,9 @@ function foo() {
 }
 foo
 
-# another function example, you can omit the parenthesis 
+# another function example, you can omit the parenthesis
 function print {
-    echo $1 
+    echo $1
 }
 print "Hello world!"
 
@@ -28,5 +28,18 @@ function intro() {
 }
 intro "aJIEw"
 
+
+add() {
+    local regex_num=^-?[0-9]+$
+    if [[ $1 =~ $regex_num && $2 =~ $regex_num ]]; then
+        return $(($1+$2))
+    else
+        echo illegal arguemnts: $1, $2
+    fi
+}
+
+add 1 9
+result=$?
+echo after add: $result
 
 

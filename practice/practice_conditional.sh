@@ -39,7 +39,7 @@ case $i  in
         ;;
     * )
         echo "there're a lot of files"
-        ;;  
+        ;;
 esac
 
 

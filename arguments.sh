@@ -5,7 +5,7 @@ clear
 echo the exit code is: $? # use $? to get the last function's return value or script's exit code
 
 echo you input $# arguments, and they are: $@
-  
+
 # use shift to remove arguments
 shift 2
 

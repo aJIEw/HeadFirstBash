@@ -9,7 +9,7 @@ echo "Hi, I'm $my_name"
 # you can also add big bracket around a variable
 # so that interpreter knows where the end is
 for type in Type Coffee Java; do
-	echo "${type}Script"
+    echo "${type}Script"
 done
 
 # you can use escape character in double quote

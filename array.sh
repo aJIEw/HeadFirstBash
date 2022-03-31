@@ -35,19 +35,19 @@ echo
 
 array=([1]=Or [0]=Yes [2]=No)
 for item in ${array[@]}; do
-	echo -n "$item "
+    echo -n "$item "
 done
 echo ; echo
 
 
 # loop all the indices to get all elements
-array=("the rose" "is red" "the violet" "is blue" "the honey" "is sweet") 
+array=("the rose" "is red" "the violet" "is blue" "the honey" "is sweet")
 for index in ${!array[@]}; do
-	if [ $(( index % 2  )) == 1 ]; then
-		echo ${array[index]}
-	else
-		echo -n "${array[index]} "
-	fi
+    if [ $(( index % 2  )) == 1 ]; then
+        echo ${array[index]}
+    else
+        echo -n "${array[index]} "
+    fi
 done
 echo ; echo
 

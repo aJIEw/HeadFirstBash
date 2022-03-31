@@ -7,7 +7,7 @@ i="Five"
 #i='One'
 if [ ${#i} -eq 4 ]; then
     echo Hi${i}!
-elif [ $i == "One" ]; then 
+elif [ $i == "One" ]; then
     echo You are No.1!
 else
     echo Nice to meet you, $i!
@@ -38,7 +38,7 @@ fi
 
 # regex example, use =~ to compare
 read -p "Please input a number:" num
-if [[ $num  =~ [6-9]+ ]]; then # use [[  ]] so we don't need to use quote and support && || > <, etc. 
+if [[ $num  =~ [6-9]+ ]]; then # use [[  ]] so we don't need to use quote and support && || > <, etc.
     echo in range
 else
     echo not int range
@@ -79,14 +79,14 @@ function expression {
 
     expression1 && expression2 # if expression1 executed with no error, then execute expression2
     expression1 || expression2 # if expression1 executed with error, then execute expression2
-    
+
     str1 = str2     # str1 matches str2
     str1 != str2    # str1 does not match str2
     str1 < str2     # str1 is less than str2
     str1 > str2     # str1 is greater than str2
     -n str1         # str1 is not null (has length greater than 0)
     -z str1         # str1 is null (has length 0)
-    
+
     -a file         # file exists
     -d file         # file exists and is a directory
     -e file         # file exists; same -a
@@ -98,10 +98,10 @@ function expression {
     -N file         # file was modified since it was last read
     -O file         # you own file
     -G file         # file's group ID matches yours (or one of yours, if you are in multiple groups)
-    
+
     file1 -nt file2     # file1 is newer than file2
     file1 -ot file2     # file1 is older than file2
-    
+
     -lt     # less than
     -le     # less than or equal
     -eq     # equal
