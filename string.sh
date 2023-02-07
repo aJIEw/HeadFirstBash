@@ -8,13 +8,17 @@ first=Hello
 second='World'
 echo $first, $second
 
+# if you don't want expansion, you have to use ""
+workspace="/Workspace"
+echo $workspace
+
 
 # ${#var} to get string length
 str=Love
 echo $str\'s length is ${#str}
 echo
 
-# return the substring of var starting at index until the end of string, unless length is specified 
+# return the substring of var starting at index until the end of string, unless length is specified
 ${var:index:length}
 str="Love and Peace"
 echo ${str:0}
@@ -33,15 +37,15 @@ echo after remove parent dirs: ${path##*/}
 echo
 
 # if the pattern matches the end of the path, delete the shortest part that matches and return the rest
-echo the parent dir: ${path%/*} 
+echo the parent dir: ${path%/*}
 # if the pattern matches the end of the path, delete the longest part that matches and return the rest
-echo after remove end: ${path%%.*} 
+echo after remove end: ${path%%.*}
 echo
 
 # the longest match to pattern in path is replaced by string, only the first match is replaced
 echo another way to remove parent dirs: ${path/\/*\//}
 # the longest match to pattern in path is replaced by string, all matchs are replaced
-echo remove all dots: ${path//./} 
+echo remove all dots: ${path//./}
 echo
 
 # match and replace (subsitution)
